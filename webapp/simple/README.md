@@ -4,40 +4,42 @@ Web Application
 最も単純な例
 ------------
 
-以下の `app.psgi` はPSGIを直接利用した Web Application の最も単純な例です。
+以下の `config.ru` はRackを直接利用した Web Application の最も単純な例です。
 
-```perl
-use strict;
-use warnings;
+```
+app = Proc.new do |env|
+  [
+    200,
+    { 'Content-Type' => 'text/html/; charset=utf-8' },
+    ['Hello World']
+  ]
+end
 
-my $app = sub {
-    my $env = shift;
-
-    # your webapp code here
-
-    [ 200, ["Content-Type" => "text/html; charset=utf-8"], ["Hello World"] ];
-};
+run app
 
 ```
 
 起動方法
 
 ```
-$ cpanm Plack        # Plackのインストール
-$ plackup app.psgi
-HTTP::Server::PSGI: Accepting connections at http://0:5000/
+$ gem install rack # rackupのインストール
+$ rackup           # defaultでconfig.ruが使われる
+Puma 1.6.3 starting...
+* Min threads: 0, max threads: 16
+* Environment: development
+* Listening on tcp://0.0.0.0:9292
 ```
 
 実習(1)
 -------
 
-1. ブラウザや `curl` コマンドで http://サーバ名:5000/ にアクセスして、Hello World が表示されることを確認してください
-2. サーバ上で `ngrep` コマンドを用いて port 5000 への通信をキャプチャし、どのような HTTP のやり取りがなされているかを確認してください
+1. ブラウザや `curl` コマンドで http://サーバ名:ポート番号/ にアクセスして、Hello World が表示されることを確認してください
+2. サーバ上で `ngrep` コマンドを用いて listen している port への通信をキャプチャし、どのような HTTP のやり取りがなされているかを確認してください
 ```
 $ ngrep -d eth0 -W byline port 5000
 ```
-3. `t/basic.t` のテストが通ることを確認してください
-4. `$env` にどのようなデータが渡ってきているか、Data::Dumper などを使って中身を確認してください
+3. `spec/basic_spec.rb` のテストが通ることを確認してください
+4. `env` にどのようなデータが渡ってきているか、中身を確認してください
 
 課題(1)
 -------
