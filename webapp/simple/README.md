@@ -47,17 +47,30 @@ $ ngrep -d eth0 -W byline port 5000
 1. `html` ディレクトリに存在するHTMLファイルを利用して、`spec/webapp_spec.rb` のテストが通る Web Application を `config.ru` に実装してください
 
 
-フレームワーク(Amon2)を使った Web Application
+フレームワーク(Sinatra)を使った Web Application
 ------------
 
 インストールとセットアップ
 
 ```
-$ cpanm Amon2 Amon2::Lite Amon2::DBI
-$ PERL5LIB=../lib amon2-setup.pl --flavor=+SimpleFlavor Simple
-$ cd Simple
-$ rm -rf .git     # setupで自動的にできてしまう .git は削除
-$ plackup app.psgi
+$ gem install bundler
+$ bundle init
+$ echo 'gem "sinatra"' >> ./Gemfile
+$ bundle install --path=vendor/bundle
+
+$ cat << EOF > ./app.rb
+require 'sinatra'
+
+get '/' do
+  "Hello World"
+end
+EOF
+$ cat << EOF > ./config.ru
+require_relative 'app'
+
+run Sinatra::Application
+EOF
+$ bundle exec rackup
 ```
 
 課題(2)
