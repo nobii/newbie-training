@@ -1,12 +1,8 @@
 require 'spec_helper'
 
-APP = Rack::Builder.parse_file('config.ru').first
-
 describe 'Simple Hello World App' do
 
-  def app
-    APP
-  end
+  let(:app) { Rack::Builder.parse_file('config.ru').first }
 
   it 'says hello' do
     get '/'

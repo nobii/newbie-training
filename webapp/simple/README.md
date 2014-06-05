@@ -44,13 +44,14 @@ $ ngrep -d eth0 -W byline port 5000
 課題(1)
 -------
 
-1. `html` ディレクトリに存在するHTMLファイルを利用して、`t/webapp.t` のテストが通る Web Application を `app.psgi` に実装してください
+1. `html` ディレクトリに存在するHTMLファイルを利用して、`spec/webapp_spec.rb` のテストが通る Web Application を `config.ru` に実装してください
 
 
 フレームワーク(Amon2)を使った Web Application
 ------------
 
 インストールとセットアップ
+
 ```
 $ cpanm Amon2 Amon2::Lite Amon2::DBI
 $ PERL5LIB=../lib amon2-setup.pl --flavor=+SimpleFlavor Simple
@@ -62,4 +63,4 @@ $ plackup app.psgi
 課題(2)
 -------
 
-1. 課題(1) で作成した Web Application を Amon2 上で動作するように移植し、t/webapp.t のテストが通るようにしてください
+1. 課題(1) で作成した Web Application を Sinatra 上で動作するように移植し、spec/webapp_spec.rb のテストが通るようにしてください
