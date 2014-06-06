@@ -42,4 +42,14 @@ Finished in 0.00213 seconds (files took 0.08586 seconds to load)
 下記のインターフェースを満たす`My::List`とそのテストを作成してください。
 
 ```
+list = My::List.new
+
+list.append('Hello')
+list.append('World')
+list.append(2008)
+
+iter = list.iterator
+while iter.has_next do
+  p iter.next.value
+end
 ```
