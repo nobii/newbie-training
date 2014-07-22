@@ -1,9 +1,3 @@
-app = Proc.new do |env|
-  [
-    200,
-    { 'Content-Type' => 'text/html/; charset=utf-8' },
-    ['Hello World']
-  ]
-end
+require ::File.expand_path('../app.rb', __FILE__)
 
-run app
+run SimpleApp.new
