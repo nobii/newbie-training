@@ -7,7 +7,7 @@ describe 'Simple Hello World App' do
   it 'says hello' do
     get '/'
     expect(last_response).to be_ok
-    expect(last_response.header['Content-Type']).to eq('text/html/; charset=utf-8')
+    expect(last_response.header['Content-Type']).to eq('text/html; charset=UTF-8')
     expect(last_response.body).to eq('Hello World')
   end
 
