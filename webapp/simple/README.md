@@ -4,18 +4,26 @@ Web Application
 最も単純な例
 ------------
 
-以下の `config.ru` はRackを直接利用した Web Application の最も単純な例です。
+以下の `config.ru`, `app.rb` はRackを直接利用した Web Application の最も単純な例です。
 
 ```
-app = Proc.new do |env|
-  [
-    200,
-    { 'Content-Type' => 'text/html/; charset=utf-8' },
-    ['Hello World']
-  ]
-end
+# config.ru
+require ::File.expand_path('../app.rb', __FILE__)
 
-run app
+run SimpleApp.new
+
+# app.rb
+class SimpleApp
+  def call(env)
+    # your webapp code here
+
+    [
+      200,
+      { 'Content-Type' => 'text/html; charset=UTF-8' },
+      ['Hello World']
+    ]
+  end
+end
 
 ```
 
