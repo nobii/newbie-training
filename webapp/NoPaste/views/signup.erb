@@ -1,4 +1,3 @@
-[% WRAPPER "wrapper.tt" %]
  <style type="text/css">
       body {
         padding-top: 40px;
@@ -33,11 +32,12 @@
       }
     </style>
     <div class="container">
-      <form class="form-signin form-horizontal" action="[% uri_for('/signup') %]" method="post">
+      <form class="form-signin form-horizontal" action="<%= uri_for('/signup') %>" method="post">
         <h2 class="form-signin-heading">Sign up now!</h2>
 
-        <div class="control-group [% errors.username ? 'error' : '' %]">
+        <div class="control-group <%= false ? 'error' : '' %>">
           <input type="text" class="input-block-level" placeholder="username" name="username">
+          <% if false %>
           [% FOR error IN errors.username.keys() %]
           <span class="help-inline">
             [% SWITCH error %]
@@ -46,11 +46,13 @@
             [% END %]
           </span>
           [% END %]
+          <% end %>
         </div>
 
-        <div class="control-group [% errors.password ? 'error' : '' %]">
+        <div class="control-group [% false ? 'error' : '' %]">
           <input type="password" class="input-block-level" placeholder="password" name="password">
           <input type="password" class="input-block-level" placeholder="password confirm" name="password_confirm">
+          <% if false %>
           [% FOR error IN errors.password.keys() %]
           <span class="help-inline">
             [% SWITCH error %]
@@ -61,9 +63,9 @@
             [% END %]
           </span>
           [% END %]
+          <% end %>
 
         </div>
         <button class="btn btn-large btn-primary" type="submit">Sign up now!</button>
       </form>
     </div> <!-- /container -->
-[% END %]
