@@ -8,6 +8,7 @@ set :erb, :escape_html => true
 configure do
   set :session_secret, 'session secret'
   enable :sessions
+  use Rack::Protection
 end
 
 helpers do
