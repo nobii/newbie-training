@@ -1,4 +1,3 @@
-[% WRAPPER "wrapper.tt" %]
  <style type="text/css">
       body {
         padding-top: 40px;
@@ -7,7 +6,7 @@
       }
 
       .form-signin {
-        max-width: 300px;
+        max-width: 600px;
         padding: 19px 29px 29px;
         margin: 0 auto 20px;
         background-color: #fff;
@@ -25,6 +24,7 @@
       }
       .form-signin input[type="text"],
       .form-signin input[type="password"] {
+        max-width: 300px;
         font-size: 16px;
         height: auto;
         margin-bottom: 15px;
@@ -32,24 +32,28 @@
       }
     </style>
     <div class="container">
-      <form class="form-signin" action="[% uri_for('/signin') %]" method="post">
-        <h2 class="form-signin-heading">Please sign in</h2>
+      <form class="form-signin form-horizontal" action="<%= url_for('/signup') %>" method="post">
+        <h2 class="form-signin-heading">Sign up now!</h2>
 
-        <div class="control-group [% errors.login ? 'error' : '' %]">
+        <div class="control-group <%= form.failed_on?(:username) ? 'error' : '' %>">
           <input type="text" class="input-block-level" placeholder="username" name="username">
-          <input type="password" class="input-block-level" placeholder="password" name="password">
-
-          [% FOR error IN errors.login.keys() %]
+          <% form.messages(:signup, :username).each do |message| %>
           <span class="help-inline">
-            [% SWITCH error %]
-              [% CASE DEFAULT %][% error %]
-            [% END %]
+            <%= message %>
           </span>
-          [% END %]
+          <% end %>
+        </div>
+
+        <div class="control-group <%= form.failed_on?(:password) ? 'error' : '' %>">
+          <input type="password" class="input-block-level" placeholder="password" name="password">
+          <input type="password" class="input-block-level" placeholder="password confirm" name="password_confirm">
+          <% form.messages(:signup, :password).each do |message| %>
+          <span class="help-inline">
+            <%= message %>
+          </span>
+          <% end %>
 
         </div>
-        <button class="btn btn-large btn-primary" type="submit">Sign in</button>
-        <a href="[% uri_for('/signup') %]" class="btn btn-info btn-small">Sign up now!!!</a>
+        <button class="btn btn-large btn-primary" type="submit">Sign up now!</button>
       </form>
     </div> <!-- /container -->
-[% END %]
