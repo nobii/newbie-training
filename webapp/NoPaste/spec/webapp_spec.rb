@@ -51,12 +51,10 @@ describe 'signup' do
     end
   end
 
-  context 'csrf error' do
-    # TODO
-  end
-
   context 'validation error' do
-    # TODO
+    it 'returns "Already exists" error if username is already used' do
+      # TODO:
+    end
   end
 end
 
@@ -103,7 +101,15 @@ describe 'signin' do
   end
 
   it 'failed' do
-    # TODO
+    get '/signin'
+    expect(last_response.status).to eq(200)
+
+    username = 'test$$'
+    post '/signin', username: username,
+                    password: 'xxxx'
+
+    expect(last_response.status).to eq(200)
+    expect(last_response.body).to have_tag('div.error span.help-inline', text: 'FAILED')
   end
 end
 
