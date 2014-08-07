@@ -190,6 +190,7 @@ post '/signup' do
   username = params[:username]
   password = params[:password]
 
+  # ref. https://github.com/lyokato/sinatra-formkeeper
   # --------------------------------------
   # 入力の validate 処理を入れてください
   # username: 必須 2文字以上20文字以下 半角アルファベットと数字のみ
