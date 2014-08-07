@@ -34,18 +34,14 @@
       <form class="form-signin" action="<%= url_for('/signin') %>" method="post">
         <h2 class="form-signin-heading">Please sign in</h2>
 
-        <div class="control-group <%= false ? 'error' : '' %>">
+        <div class="control-group <%= form.failed? ? 'error' : '' %>">
           <input type="text" class="input-block-level" placeholder="username" name="username">
           <input type="password" class="input-block-level" placeholder="password" name="password">
 
-          <% if false %>
-          [% FOR error IN errors.login.keys() %]
+          <% form.messages(:signin).each do |message| %>
           <span class="help-inline">
-            [% SWITCH error %]
-              [% CASE DEFAULT %][% error %]
-            [% END %]
+            <%= message %>
           </span>
-          [% END %]
           <% end %>
 
         </div>

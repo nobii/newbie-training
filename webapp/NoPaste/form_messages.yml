@@ -7,3 +7,8 @@ post:
   content:
     present: content is required
     DEFAULT: content invalid
+signin:
+  username:
+    DEFAULT: username invalid
+  password:
+    DEFAULT: password invalid
