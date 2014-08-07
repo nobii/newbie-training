@@ -31,7 +31,7 @@
       }
     </style>
     <div class="container">
-      <form class="form-signin" action="<%= uri_for('/signin') %>" method="post">
+      <form class="form-signin" action="<%= url_for('/signin') %>" method="post">
         <h2 class="form-signin-heading">Please sign in</h2>
 
         <div class="control-group <%= false ? 'error' : '' %>">
@@ -50,6 +50,6 @@
 
         </div>
         <button class="btn btn-large btn-primary" type="submit">Sign in</button>
-        <a href="<%= uri_for('/signup') %>" class="btn btn-info btn-small">Sign up now!!!</a>
+        <a href="<%= url_for('/signup') %>" class="btn btn-info btn-small">Sign up now!!!</a>
       </form>
     </div> <!-- /container -->

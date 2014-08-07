@@ -5,11 +5,11 @@
           <div class="hero-unit">
             <div>
               <p>by <%= @post['username'] %> at <%= @post['created_at'] %></p>
-              <form action="<%= uri_for('/star/') %><%= u(@post['id']) %>" method="post">
+              <form action="<%= url_for('/star/') %><%= u(@post['id']) %>" method="post">
                 <% unless @session['username'].nil? %>
                 <button class="btn btn-primary" id="add_star"><i class="icon-star icon-white"></i>＋</button>
                 <% else %>
-                <a href="<%= uri_for('/signin') %>" class="btn">sign in to add Star</a>
+                <a href="<%= url_for('/signin') %>" class="btn">sign in to add Star</a>
                 <% end %>
               <% if @post['stars'] > 0 %><i class="icon-star"></i><%= @post['stars'] %><% end %>
               <pre><%= @post['content'] %></pre>

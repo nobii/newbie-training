@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'sinatra/url_for'
 require 'erubis'
 require 'mysql2-cs-bind'
 
@@ -43,7 +44,7 @@ helpers do
         'id'       => 1,
         'username' => 'dummy user',
         'stars'    => 10,
-        'headline' => 'dummy content',
+        'headline' => 'dummy content hogehogehoggge',
       }
     ]
 
@@ -55,16 +56,15 @@ helpers do
     recent_posts
   end
 
-  def uri_for(path)
-    path
-  end
-
-  # uri escape
   def u(str)
-    str
+    URI.escape(str)
   end
 
   def truncate(str, length)
+    if str.length > length
+      return str.slice(0, length) + '...'
+    end
+
     str
   end
 end

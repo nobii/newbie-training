@@ -4,7 +4,7 @@
               <li class="nav-header">Recent Posts</li>
               <% @recent_posts.each do |p| %>
               <li>
-                <a href="<%= uri_for('/post/') %><%= u(p['id']) %>"><i class="icon-file"></i><%= truncate(p['headline'], 20) %> by <%= p['username'] %>
+                <a href="<%= url_for('/post/') %><%= u(p['id'].to_s) %>"><i class="icon-file"></i><%= truncate(p['headline'], 20) %> by <%= p['username'] %>
                   <% if p['stars'] > 0 %><i class="icon-star"></i><%= p['stars'] %><% end %>
                 </a>
               </li>

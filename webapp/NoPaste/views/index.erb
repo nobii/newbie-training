@@ -5,7 +5,7 @@
           <div class="hero-unit">
             <h2>NoPaste!!</h2>
               <% unless @session[:username].nil? %>
-              <form action="<%= uri_for('/post') %>" method="post">
+              <form action="<%= url_for('/post') %>" method="post">
                 <div class="control-group <% !@errors.nil? ? 'error' : '' %>">
                   <textarea style="width: 90%; height: 300px;" name="content"></textarea>
                 <% if false %>
@@ -24,7 +24,7 @@
               </form>
               <% else %>
                 <p>
-                  <a class="btn btn-primary" href="<%= uri_for('/signin') %>">Please sign in</a>
+                  <a class="btn btn-primary" href="<%= url_for('/signin') %>">Please sign in</a>
                 </p>
               <% end %>
             </div>

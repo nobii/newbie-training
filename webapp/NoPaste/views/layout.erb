@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <title>NoPaste</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script type="text/javascript" src="<%= uri_for('/static/js/jquery-1.9.0.min.js') %>"></script>
-  <script type="text/javascript" src="<%= uri_for('/static/js/main.js') %>"></script>
-  <link rel="stylesheet" href="<%= uri_for('/static/css/main.css') %>">
-  <link rel="stylesheet" href="<%= uri_for('/static/bootstrap/css/bootstrap.min.css') %>" media="screen">
+  <script type="text/javascript" src="<%= url_for('/static/js/jquery-1.9.0.min.js') %>"></script>
+  <script type="text/javascript" src="<%= url_for('/static/js/main.js') %>"></script>
+  <link rel="stylesheet" href="<%= url_for('/static/css/main.css') %>">
+  <link rel="stylesheet" href="<%= url_for('/static/bootstrap/css/bootstrap.min.css') %>" media="screen">
   <style>
     body {
       padding-top: 60px;
@@ -32,9 +32,9 @@
             <p class="navbar-text pull-right">
               <% unless session[:username].nil? %>
               Logged in as <%= session[:username] %>
-              <a href="<%= uri_for('/signout') %>" class="btn btn-inverse btn-small">Sign out</a>
+              <a href="<%= url_for('/signout') %>" class="btn btn-inverse btn-small">Sign out</a>
               <% else %>
-              <a href="<%= uri_for('/signin') %>" class="btn btn-primary btn-small">Sign in</a>
+              <a href="<%= url_for('/signin') %>" class="btn btn-primary btn-small">Sign in</a>
               <% end %>
             </p>
             <ul class="nav">
