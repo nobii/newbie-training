@@ -1,9 +1,11 @@
 require 'sinatra'
 require 'sinatra/url_for'
+require 'sinatra/formkeeper'
 require 'erubis'
 require 'mysql2-cs-bind'
 
 set :erb, :escape_html => true
+form_messages File.expand_path(File.join(File.dirname(__FILE__), 'form_messages.yml'))
 
 configure do
   set :session_secret, 'session secret'
@@ -193,8 +195,18 @@ post '/signup' do
   # username: 必須 2文字以上20文字以下 半角アルファベットと数字のみ
   # password: 必須 2文字以上20文字以下 ASCII のみ
   # --------------------------------------
+  form do
+    field :username, present: true, regexp: /[a-zA-Z0-9]*/
+    field :password, present: true, ascii: true
+  end
+  username = form[:username]
+  password = form[:password]
 
   # validationでエラーが起きたらフォームを再表示
+  if form.failed?
+    body = erb :signup
+    return fill_in_form(body)
+  end
 
   # validationを通ったのでユーザを作成
   mysql = connection

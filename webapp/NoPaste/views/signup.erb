@@ -35,34 +35,22 @@
       <form class="form-signin form-horizontal" action="<%= url_for('/signup') %>" method="post">
         <h2 class="form-signin-heading">Sign up now!</h2>
 
-        <div class="control-group <%= false ? 'error' : '' %>">
+        <div class="control-group <%= form.failed_on?(:username) ? 'error' : '' %>">
           <input type="text" class="input-block-level" placeholder="username" name="username">
-          <% if false %>
-          [% FOR error IN errors.username.keys() %]
+          <% form.messages(:signup, :username).each do |message| %>
           <span class="help-inline">
-            [% SWITCH error %]
-              [% CASE "EXISTS" %]Already exists
-              [% CASE DEFAULT %][% error %]
-            [% END %]
+            <%= message %>
           </span>
-          [% END %]
           <% end %>
         </div>
 
-        <div class="control-group [% false ? 'error' : '' %]">
+        <div class="control-group <%= form.failed_on?(:password) ? 'error' : '' %>">
           <input type="password" class="input-block-level" placeholder="password" name="password">
           <input type="password" class="input-block-level" placeholder="password confirm" name="password_confirm">
-          <% if false %>
-          [% FOR error IN errors.password.keys() %]
+          <% form.messages(:signup, :password).each do |message| %>
           <span class="help-inline">
-            [% SWITCH error %]
-              [% CASE "NOT_NULL" %]Required
-              [% CASE "DUPLICATION" %]Confirm mismatch
-              [% CASE "LENGTH" %]Invalid length
-              [% CASE DEFAULT %][% error %]
-            [% END %]
+            <%= message %>
           </span>
-          [% END %]
           <% end %>
 
         </div>

@@ -1,0 +1,5 @@
+signup:
+  username:
+    DEFAULT: username invalid
+  password:
+    DEFAULT: password invalid
