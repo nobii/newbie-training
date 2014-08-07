@@ -9,4 +9,5 @@ gem 'mysql2-cs-bind'
 
 group :test do
   gem 'rspec'
+  gem 'rspec-html-matchers'
 end

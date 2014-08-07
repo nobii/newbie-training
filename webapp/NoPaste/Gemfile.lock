@@ -4,10 +4,13 @@ GEM
     backports (3.6.0)
     diff-lcs (1.2.5)
     erubis (2.7.0)
+    mini_portile (0.6.0)
     multi_json (1.10.1)
     mysql2 (0.3.16)
     mysql2-cs-bind (0.0.6)
       mysql2
+    nokogiri (1.6.3.1)
+      mini_portile (= 0.6.0)
     rack (1.5.2)
     rack-protection (1.5.3)
       rack
@@ -22,6 +25,9 @@ GEM
     rspec-expectations (3.0.3)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.0.0)
+    rspec-html-matchers (0.6.1)
+      nokogiri (~> 1)
+      rspec (~> 3)
     rspec-mocks (3.0.3)
       rspec-support (~> 3.0.0)
     rspec-support (3.0.3)
@@ -46,5 +52,6 @@ DEPENDENCIES
   mysql2
   mysql2-cs-bind
   rspec
+  rspec-html-matchers
   sinatra
   sinatra-contrib
