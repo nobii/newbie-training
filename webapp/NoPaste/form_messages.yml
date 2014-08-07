@@ -3,3 +3,7 @@ signup:
     DEFAULT: username invalid
   password:
     DEFAULT: password invalid
+post:
+  content:
+    present: content is required
+    DEFAULT: content invalid

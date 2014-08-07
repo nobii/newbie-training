@@ -88,6 +88,16 @@ post '/post' do
     halt 400, 'invalid request'
   end
 
+  form do
+    field :content, present: true
+  end
+
+  if form.failed?
+    @recent_posts = recent_posts
+    body = erb :index
+    return fill_in_form(body)
+  end
+
   mysql = connection
   user = mysql.xquery(
     'SELECT id FROM users WHERE username=?',
@@ -197,11 +207,7 @@ post '/signup' do
   # password: 必須 2文字以上20文字以下 ASCII のみ
   # --------------------------------------
   form do
-    field :username, present: true, regexp: /[a-zA-Z0-9]*/
-    field :password, present: true, ascii: true
   end
-  username = form[:username]
-  password = form[:password]
 
   # validationでエラーが起きたらフォームを再表示
   if form.failed?
