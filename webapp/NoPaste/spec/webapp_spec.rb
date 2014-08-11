@@ -34,8 +34,8 @@ describe 'signup' do
     end
 
     it 'success to signup' do
-      username = 'test$$'
-      password = 'pass$$'
+      username = "test#{$$}"
+      password = "pass#{$$}"
 
       post '/signup', username:         username,
                       password:         password,
