@@ -1,11 +1,12 @@
 require 'sinatra'
 require 'sinatra/url_for'
-require 'sinatra/formkeeper'
 require 'erubis'
 require 'mysql2-cs-bind'
 
+require 'formvalidator/lite'
+require 'html/fillinform/lite'
+
 set :erb, :escape_html => true
-form_messages File.expand_path(File.join(File.dirname(__FILE__), 'form_messages.yml'))
 
 configure do
   set :session_secret, 'session secret'
@@ -78,6 +79,7 @@ end
 
 get '/' do
   @recent_posts = recent_posts
+  @errors       = Hash.new {|h,k| h[k] = {}}
 
   erb :index
 end
@@ -88,14 +90,16 @@ post '/post' do
     halt 400, 'invalid request'
   end
 
-  form do
-    field :content, present: true
-  end
+  validator = FormValidator::Lite.new(request)
+  result = validator.check(
+    'content', %w( NOT_NULL )
+  )
 
-  if form.failed?
+  if result.has_error?
     @recent_posts = recent_posts
+    @errors = result.errors
     body = erb :index
-    return fill_in_form(body)
+    return HTML::FillinForm::Lite.new.fill(body, request)
   end
 
   mysql = connection
@@ -163,6 +167,7 @@ post '/star/:id' do
 end
 
 get '/signin' do
+  @errors = Hash.new {|h,k| h[k] = {} }
   erb :signin
 end
 
@@ -189,10 +194,15 @@ post '/signin' do
   end
 
   # ログイン失敗した場合
+  validator = FormValidator::Lite.new(request)
+  validator.set_error('login', 'FAILED')
+  @errors = validator.errors
+
   erb :signin
 end
 
 get '/signup' do
+  @errors = Hash.new {|h,k| h[k] = {}}
   erb :signup
 end
 
@@ -200,19 +210,19 @@ post '/signup' do
   username = params[:username]
   password = params[:password]
 
-  # ref. https://github.com/lyokato/sinatra-formkeeper
+  validator = FormValidator::Lite.new(request)
+
   # --------------------------------------
   # 入力の validate 処理を入れてください
   # username: 必須 2文字以上20文字以下 半角アルファベットと数字のみ
   # password: 必須 2文字以上20文字以下 ASCII のみ
   # --------------------------------------
-  form do
-  end
 
   # validationでエラーが起きたらフォームを再表示
-  if form.failed?
+  if validator.has_error?
+    @errors = validator.errors
     body = erb :signup
-    return fill_in_form(body)
+    return HTML::FillinForm::Lite.new.fill(body, request)
   end
 
   # validationを通ったのでユーザを作成

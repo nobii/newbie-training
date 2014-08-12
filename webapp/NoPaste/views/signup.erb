@@ -35,21 +35,29 @@
       <form class="form-signin form-horizontal" action="<%= url_for('/signup') %>" method="post">
         <h2 class="form-signin-heading">Sign up now!</h2>
 
-        <div class="control-group <%= form.failed_on?(:username) ? 'error' : '' %>">
+        <div class="control-group <%= !@errors['username'].empty? ? 'error' : '' %>">
           <input type="text" class="input-block-level" placeholder="username" name="username">
-          <% form.messages(:signup, :username).each do |message| %>
+          <% @errors['username'].keys.each do |error| %>
           <span class="help-inline">
-            <%= message %>
+            <% case error
+               when 'EXISTS' %>Already exists
+            <% else          %><%= error %>
+            <% end %>
           </span>
           <% end %>
         </div>
 
-        <div class="control-group <%= form.failed_on?(:password) ? 'error' : '' %>">
+        <div class="control-group <%= !@errors['password'].empty? ? 'error' : '' %>">
           <input type="password" class="input-block-level" placeholder="password" name="password">
           <input type="password" class="input-block-level" placeholder="password confirm" name="password_confirm">
-          <% form.messages(:signup, :password).each do |message| %>
+          <% @errors['password'].keys.each do |error| %>
           <span class="help-inline">
-            <%= message %>
+            <% case error
+               when 'NOT_NULL'    %>Required
+            <% when 'DUPLICATION' %>Confirm mismatch
+            <% when 'LENGTH'      %>Invalid length
+            <% else               %><%= error %>
+            <% end %>
           </span>
           <% end %>
 

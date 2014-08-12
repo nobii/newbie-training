@@ -6,11 +6,13 @@
             <h2>NoPaste!!</h2>
               <% unless @session[:username].nil? %>
               <form action="<%= url_for('/post') %>" method="post">
-                <div class="control-group <%= form.failed_on?(:content) ? 'error' : '' %>">
+                <div class="control-group <%= !@errors['content'].empty? ? 'error' : '' %>">
                   <textarea style="width: 90%; height: 300px;" name="content"></textarea>
-                <% form.messages(:post, :content).each do |message| %>
+                <% @errors['content'].keys.each do |error| %>
                 <span class="help-inline">
-                  <%= message %>
+                  <% case error
+                     when 'NOT_NULL' %>Required
+                  <% end %>
                 </span>
                 <% end %>
                 </div>
