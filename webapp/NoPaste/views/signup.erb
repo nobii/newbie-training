@@ -36,7 +36,7 @@
         <h2 class="form-signin-heading">Sign up now!</h2>
 
         <div class="control-group <%= !@errors['username'].empty? ? 'error' : '' %>">
-          <input type="text" class="input-block-level" placeholder="username" name="username">
+          <input type="text" class="input-block-level" placeholder="username" name="username" value="">
           <% @errors['username'].keys.each do |error| %>
           <span class="help-inline">
             <% case error

@@ -141,7 +141,7 @@ module HTML
         else
           new_value = context.escape.call(value_ref[0])
 
-          tag.gsub!(/#{@value}=#{ATTR_VALUE}/mx, %Q(value="#{new_value}")) or tag.gsub(%r|#{SPACE}*(/?)>\z|mx, %Q(value="#{new_value}")+'\1>')
+          tag.gsub!(/#{@@value}=#{ATTR_VALUE}/mx, %Q(value="#{new_value}")) or tag.gsub(%r|#{SPACE}*(/?)>\z|mx, %Q(value="#{new_value}")+'\1>')
         end
 
         tag
@@ -179,6 +179,8 @@ module HTML
       end
 
       def _escape_html(s)
+        return '' if s.blank?
+
         s.gsub!(/&/, '&amp;')
         s.gsub!(/</, '&lt;')
         s.gsub!(/>/, '&gt;')

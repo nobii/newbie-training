@@ -8,6 +8,7 @@ gem 'sinatra-formkeeper'
 gem 'erubis'
 gem 'mysql2'
 gem 'mysql2-cs-bind'
+gem 'bcrypt'
 
 group :test do
   gem 'rspec'

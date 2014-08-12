@@ -35,7 +35,7 @@
         <h2 class="form-signin-heading">Please sign in</h2>
 
         <div class="control-group <%= !@errors['login'].empty? ? 'error' : '' %>">
-          <input type="text" class="input-block-level" placeholder="username" name="username">
+          <input type="text" class="input-block-level" placeholder="username" name="username" value="">
           <input type="password" class="input-block-level" placeholder="password" name="password">
 
           <% @errors['login'].keys.each do |error| %>

@@ -25,12 +25,12 @@ module FormValidator
       def check(*rule_ary)
         rule_ary.each_slice(2) do |key, rules|
           values = []
-          if key.is_a?(Array)
+          if key.is_a?(Hash)
             key = key.flatten
-            values = [key[1].map {|v| @query[v]}]
+            values = [key[1].map {|v| @query.params[v]}]
             key = key[0]
           else
-            values = @query[key].present? ? [*@query[key]] : [nil]
+            values = @query.params[key].present? ? [*@query.params[key]] : [nil]
           end
 
           values.each do |value|
