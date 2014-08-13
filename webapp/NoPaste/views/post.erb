@@ -6,6 +6,7 @@
             <div>
               <p>by <%= @post['username'] %> at <%= @post['created_at'] %></p>
               <form action="<%= url_for('/star/') %><%= u(@post['id']) %>" method="post">
+                <%== Rack::Csrf.tag(env) %>
                 <% unless @session['username'].nil? %>
                 <button class="btn btn-primary" id="add_star"><i class="icon-star icon-white"></i>＋</button>
                 <% else %>
