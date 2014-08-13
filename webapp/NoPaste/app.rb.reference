@@ -72,7 +72,7 @@ helpers do
   end
 
   def u(str)
-    URI.escape(str)
+    URI.escape(str.to_s)
   end
 
 end
