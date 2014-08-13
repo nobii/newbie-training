@@ -1,6 +1,7 @@
 worker_processes 1
 preload_app true
 
+listen 9292
 pid "#{RAILS_ROOT}/tmp/pids/unicorn.pid"
 
 stderr_path './log/unicorn.stderr.log'
