@@ -1,5 +1,7 @@
 tmp/*
 !tmp/.gitkeep
+!tmp/pids
+!tmp/pids/.gitkeep
 
 /vendor/bundle
 /.bundle
