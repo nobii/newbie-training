@@ -33,6 +33,7 @@
     </style>
     <div class="container">
       <form class="form-signin form-horizontal" action="<%= url_for('/signup') %>" method="post">
+        <%== Rack::Csrf.tag(env) %>
         <h2 class="form-signin-heading">Sign up now!</h2>
 
         <div class="control-group <%= !@errors['username'].empty? ? 'error' : '' %>">

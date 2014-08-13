@@ -6,6 +6,7 @@
             <h2>NoPaste!!</h2>
               <% unless @session[:username].nil? %>
               <form action="<%= url_for('/post') %>" method="post">
+                <%== Rack::Csrf.tag(env) %>
                 <div class="control-group <%= !@errors['content'].empty? ? 'error' : '' %>">
                   <textarea style="width: 90%; height: 300px;" name="content"></textarea>
                 <% @errors['content'].keys.each do |error| %>
