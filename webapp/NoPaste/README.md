@@ -25,3 +25,23 @@ $ bundle exec rackup
 $ bundle exec rspec spec/webapp_spec.rb
 ```
 
+unicornでのアプリ実行・再起動について
+-------------------
+
+```
+# 実行
+bundle exec unicorn -c unicorn_config.rb -D
+
+# 再起動
+kill -USR2 `cat tmp/pids/unicorn.pid`
+```
+
+ISUCON計測用初期データ投入
+---------------------------
+
+```
+$ gzip -dc sql/initial.sql.gz | mysql -uroot test
+```
+
+本番計測前に一旦初期データにリセットします。
+Schema変更を行う場合は、この後に実行してください。
