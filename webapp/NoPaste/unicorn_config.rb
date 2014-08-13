@@ -1,4 +1,4 @@
-worker_processes 10
+worker_processes 1
 preload_app true
 
 pid "#{RAILS_ROOT}/tmp/pids/unicorn.pid"
