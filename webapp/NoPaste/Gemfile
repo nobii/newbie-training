@@ -10,6 +10,8 @@ gem 'mysql2-cs-bind'
 gem 'bcrypt'
 gem 'rack_csrf'
 
+gem 'unicorn'
+
 group :test do
   gem 'rspec'
   gem 'rspec-html-matchers'
