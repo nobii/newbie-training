@@ -46,29 +46,23 @@ helpers do
 
     if File.exists?(cache_file_name) then
       cache_file = File.open(cache_file_name, 'r')
-      return JSON.parse(cache_file.read)
+      recent_posts = JSON.parse(cache_file.read)
+      return recent_posts
     end
 
     recent_posts_limit = load_config[:recent_posts_limit]
 
     mysql = connection
     posts = mysql.xquery(
-      "SELECT posts.id AS id, users.username AS user_username, content FROM posts JOIN users ON users.id = posts.user_id ORDER BY created_at DESC LIMIT #{recent_posts_limit}"
+      "SELECT posts.id AS id, users.username AS user_username, content, stars_count FROM posts JOIN users ON users.id = posts.user_id ORDER BY created_at DESC LIMIT #{recent_posts_limit}"
     )
 
     recent_posts = []
     posts.each do |post|
-      stars_count = 0
-      stars = mysql.xquery(
-        'SELECT * FROM stars WHERE post_id=?',
-        post['id']
-      )
-      stars.each { stars_count += 1 }
-
       recent_posts.push({
         'id'       => post['id'],
         'username' => post['user_username'],
-        'stars'    => stars_count,
+        'stars'    => post['stars_count'],
         'headline' => post['content'].slice(0, 30)
       })
     end
@@ -142,25 +136,18 @@ get '/post/:id' do
 
   mysql = connection
   post = mysql.xquery(
-    'SELECT posts.id, users.username AS user_username, content, created_at FROM posts JOIN users ON posts.user_id = users.id WHERE posts.id=?',
+    'SELECT posts.id, users.username AS user_username, content, created_at, stars_count FROM posts JOIN users ON posts.user_id = users.id WHERE posts.id=?',
     post_id
   ).first
   if post.blank?
     halt 404, 'Not Found'
   end
 
-  stars_count = 0
-  stars = mysql.xquery(
-    'SELECT * FROM stars WHERE post_id=?',
-    post['id']
-  )
-  stars.each { stars_count += 1 }
-
   @post = {
     'id'         => post['id'],
     'content'    => post['content'],
     'username'   => post['user_username'],
-    'stars'      => stars_count,
+    'stars'      => post['stars_count'],
     'created_at' => post['created_at']
   }
   @recent_posts = recent_posts
@@ -176,21 +163,10 @@ post '/star/:id' do
 
   post_id = params[:id]
   mysql = connection
-  post = mysql.xquery(
-    'SELECT id, user_id, content, created_at FROM posts WHERE id=?',
-    post_id
-  ).first
-  halt 404, '404 Not Found' unless post
-
-  user = mysql.xquery(
-    'SELECT id FROM users WHERE username=?',
-    username
-  ).first
-  user_id = user['id']
 
   mysql.xquery(
-    'INSERT INTO stars (post_id, user_id) VALUES(?, ?)',
-    post_id, user_id
+    'UPDATE posts SET stars_count = stars_count + 1 WHERE posts.id = ?',
+    post_id
   )
 
   cache_file_name = load_config[:recent_posts_cache_file]
