@@ -142,7 +142,7 @@ get '/post/:id' do
 
   mysql = connection
   post = mysql.xquery(
-    'SELECT posts.id, users.user_name AS user_username, content, created_at FROM posts JOIN users ON posts.user_id = users.id WHERE posts.id=?',
+    'SELECT posts.id, users.username AS user_username, content, created_at FROM posts JOIN users ON posts.user_id = users.id WHERE posts.id=?',
     post_id
   ).first
   if post.blank?
