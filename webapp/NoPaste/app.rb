@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'sinatra'
 require 'sinatra/url_for'
 require 'erubis'
@@ -20,7 +21,7 @@ helpers do
         :password => '',
         :dbname   => 'test',
       },
-      :recent_posts_limit => 100,
+      :recent_posts_limit => 100
     }
   end
 
@@ -43,16 +44,11 @@ helpers do
 
     mysql = connection
     posts = mysql.xquery(
-      "SELECT id, user_id, content FROM posts ORDER BY created_at DESC LIMIT #{recent_posts_limit}"
+      "SELECT posts.id AS id, users.username AS user_username, content FROM posts JOIN users ON users.id = posts.user_id ORDER BY created_at DESC LIMIT #{recent_posts_limit}"
     )
 
     recent_posts = []
     posts.each do |post|
-      user = mysql.xquery(
-        'SELECT username FROM users WHERE id=?',
-        post['user_id']
-      ).first
-
       stars_count = 0
       stars = mysql.xquery(
         'SELECT * FROM stars WHERE post_id=?',
@@ -62,7 +58,7 @@ helpers do
 
       recent_posts.push({
         'id'       => post['id'],
-        'username' => user['username'],
+        'username' => post['user_username'],
         'stars'    => stars_count,
         'headline' => post['content'].slice(0, 30)
       })
