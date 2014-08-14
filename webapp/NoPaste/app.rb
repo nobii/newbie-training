@@ -4,6 +4,7 @@ require 'sinatra/url_for'
 require 'erubis'
 require 'mysql2-cs-bind'
 require 'bcrypt'
+require 'json'
 
 require 'ext/object/blank'
 require 'formvalidator/lite'
@@ -21,7 +22,8 @@ helpers do
         :password => '',
         :dbname   => 'test',
       },
-      :recent_posts_limit => 100
+      :recent_posts_limit => 100,
+      :recent_posts_cache_file => 'public/cache.json'
     }
   end
 
@@ -40,6 +42,13 @@ helpers do
   end
 
   def recent_posts
+    cache_file_name = load_config[:recent_posts_cache_file]
+
+    if File.exists?(cache_file_name) then
+      cache_file = File.open(cache_file_name, 'r')
+      return JSON.parse(cache_file.read)
+    end
+
     recent_posts_limit = load_config[:recent_posts_limit]
 
     mysql = connection
@@ -63,6 +72,10 @@ helpers do
         'headline' => post['content'].slice(0, 30)
       })
     end
+
+    cache_file = File.open(cache_file_name, 'w')
+    cache_file.write(recent_posts.to_json)
+    cache_file.close
 
     recent_posts
   end
@@ -115,6 +128,11 @@ post '/post' do
     user_id, content
   )
   post_id = mysql.last_id
+
+  cache_file_name = load_config[:recent_posts_cache_file]
+  if File.exists?(cache_file_name) then
+    File.unlink cache_file_name
+  end
 
   redirect to("/post/#{post_id}")
 end
@@ -179,6 +197,11 @@ post '/star/:id' do
     'INSERT INTO stars (post_id, user_id) VALUES(?, ?)',
     post_id, user_id
   )
+
+  cache_file_name = load_config[:recent_posts_cache_file]
+  if File.exists?(cache_file_name) then
+    File.unlink cache_file_name
+  end
 
   redirect to("/post/#{post_id}")
 end

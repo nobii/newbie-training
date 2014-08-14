@@ -8,3 +8,5 @@ log/*
 
 /vendor/bundle
 /.bundle
+
+/public/cache.json
