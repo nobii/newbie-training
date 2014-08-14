@@ -142,17 +142,12 @@ get '/post/:id' do
 
   mysql = connection
   post = mysql.xquery(
-    'SELECT id, user_id, content, created_at FROM posts WHERE id=?',
+    'SELECT posts.id, users.user_name AS user_username, content, created_at FROM posts JOIN users ON posts.user_id = users.id WHERE posts.id=?',
     post_id
   ).first
   if post.blank?
     halt 404, 'Not Found'
   end
-
-  user = mysql.xquery(
-    'SELECT username FROM users WHERE id=?',
-    post['user_id']
-  ).first
 
   stars_count = 0
   stars = mysql.xquery(
@@ -164,7 +159,7 @@ get '/post/:id' do
   @post = {
     'id'         => post['id'],
     'content'    => post['content'],
-    'username'   => user['username'],
+    'username'   => post['user_username'],
     'stars'      => stars_count,
     'created_at' => post['created_at']
   }
